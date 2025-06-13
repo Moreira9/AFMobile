@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Nome do personagem -->
+        <EditText
+            android:id="@+id/etNomePersonagem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nome do personagem"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Raça -->
+        <TextView
+            android:id="@+id/tvRaca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Raça:"
+            app:layout_constraintTop_toBottomOf="@id/etNomePersonagem"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerRaca"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvRaca"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Classe -->
+        <TextView
+            android:id="@+id/tvClasse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Classe:"
+            app:layout_constraintTop_toBottomOf="@id/spinnerRaca"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerClasse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvClasse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Atributos -->
+        <TextView
+            android:id="@+id/tvAtributos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Atributos"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/spinnerClasse"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Layout em grade para atributos -->
+        <GridLayout
+            android:id="@+id/gridAtributos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tvAtributos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView android:text="Força" />
+            <EditText
+                android:id="@+id/etForca"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView android:text="Destreza" />
+            <EditText
+                android:id="@+id/etDestreza"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView android:text="Constituição" />
+            <EditText
+                android:id="@+id/etConstituicao"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView android:text="Inteligência" />
+            <EditText
+                android:id="@+id/etInteligencia"
+                android:layout_width="103dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView android:text="Sabedoria" />
+            <EditText
+                android:id="@+id/etSabedoria"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+            <TextView android:text="Carisma" />
+            <EditText
+                android:id="@+id/etCarisma"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </GridLayout>
+
+        <!-- Perícias -->
+        <TextView
+            android:id="@+id/tvPericias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Perícias"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/gridAtributos"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/layoutPericias"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/tvPericias"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <CheckBox
+                android:id="@+id/cbAcrobacia"
+                android:text="Acrobacia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbArcanismo"
+                android:text="Arcanismo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbAtletismo"
+                android:text="Atletismo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbEnganacao"
+                android:text="Enganação"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbHistoria"
+                android:text="História"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbIntimidacao"
+                android:text="Intimidação"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbInvestigacao"
+                android:text="Investigação"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbNatureza"
+                android:text="Natureza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <CheckBox
+                android:id="@+id/cbReligiao"
+                android:text="Religião"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Botão Criar -->
+        <Button
+            android:id="@+id/btnCriarPersonagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Criar Personagem"
+            android:layout_marginTop="24dp"
+            android:onClick="salvarPersonagem"
+            app:layout_constraintTop_toBottomOf="@id/layoutPericias"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "867561044296",
+    "project_id": "fichaderpg-fda1b",
+    "storage_bucket": "fichaderpg-fda1b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867561044296:android:75308877177c33eea99b7d",
+        "android_client_info": {
+          "package_name": "com.example.fichadeguerreiro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIZjatv-01YQDBVLYLEnOTCqi9emIS5hQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
