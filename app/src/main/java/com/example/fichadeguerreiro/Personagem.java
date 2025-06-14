@@ -1,9 +1,10 @@
 package com.example.fichadeguerreiro;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Personagem {
-    private String id; // id do documento no Firestore
+public class Personagem implements Serializable {
+    private String id;
     private String nome;
     private String raca;
     private String classe;

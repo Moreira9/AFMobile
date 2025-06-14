@@ -18,7 +18,7 @@ public class PersonagemAdapter extends RecyclerView.Adapter<PersonagemAdapter.Vi
     public interface OnItemClickListener {
         void onItemClick(Personagem personagem);
     }
-
+    
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -30,6 +30,7 @@ public class PersonagemAdapter extends RecyclerView.Adapter<PersonagemAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Infla o layout do item (certifique-se que R.layout.item_personagem existe e tem txtNomePersonagem)
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_personagem, parent, false);
         return new ViewHolder(v);
     }
@@ -38,8 +39,12 @@ public class PersonagemAdapter extends RecyclerView.Adapter<PersonagemAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Personagem p = lista.get(position);
         holder.txtNome.setText(p.getNome());
+
+
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(p);
+            if (listener != null) {
+                listener.onItemClick(p);
+            }
         });
     }
 
@@ -57,4 +62,3 @@ public class PersonagemAdapter extends RecyclerView.Adapter<PersonagemAdapter.Vi
         }
     }
 }
-

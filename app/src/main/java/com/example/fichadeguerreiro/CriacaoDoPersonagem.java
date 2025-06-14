@@ -26,22 +26,18 @@ public class CriacaoDoPersonagem extends AppCompatActivity {
     private Spinner spRaca, spClasse;
     private List<CheckBox> checkBoxesPericias = new ArrayList<>();
     private FirebaseFirestore db;
-    private Personagem personagemEmEdicao = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_criacao_do_personagem);
-
-        // Ajuste do padding para sistema de barras
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Inicialização do Firebase
         db = FirebaseFirestore.getInstance();
 
         // Vincular views
@@ -77,57 +73,6 @@ public class CriacaoDoPersonagem extends AppCompatActivity {
         checkBoxesPericias.add(findViewById(R.id.cbInvestigacao));
         checkBoxesPericias.add(findViewById(R.id.cbNatureza));
         checkBoxesPericias.add(findViewById(R.id.cbReligiao));
-
-        // Verifica se veio personagem para edição via intent
-        String personagemId = getIntent().getStringExtra("personagem_id");
-        if (personagemId != null) {
-            carregarPersonagemParaEdicao(personagemId);
-        }
-    }
-
-    private void carregarPersonagemParaEdicao(String nome) {
-        db.collection("personagens")
-                .whereEqualTo("nome", nome)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        var document = queryDocumentSnapshots.getDocuments().get(0);
-                        Personagem personagem = document.toObject(Personagem.class);
-                        if (personagem != null) {
-                            personagem.setId(document.getId());
-                            personagemEmEdicao = personagem;
-                            preencherCamposComPersonagem(personagem);
-                        }
-                    } else {
-                        Toast.makeText(this, "Personagem não encontrado", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Erro ao buscar personagem por nome", Toast.LENGTH_SHORT).show());
-    }
-
-    private void preencherCamposComPersonagem(Personagem personagem) {
-        etNome.setText(personagem.getNome());
-
-        // Selecionar raça e classe nos spinners
-        ArrayAdapter<String> racaAdapter = (ArrayAdapter<String>) spRaca.getAdapter();
-        int racaPos = racaAdapter.getPosition(personagem.getRaca());
-        spRaca.setSelection(racaPos);
-
-        ArrayAdapter<String> classeAdapter = (ArrayAdapter<String>) spClasse.getAdapter();
-        int classePos = classeAdapter.getPosition(personagem.getClasse());
-        spClasse.setSelection(classePos);
-
-        etForca.setText(String.valueOf(personagem.getForca()));
-        etDestreza.setText(String.valueOf(personagem.getDestreza()));
-        etConstituicao.setText(String.valueOf(personagem.getConstituicao()));
-        etInteligencia.setText(String.valueOf(personagem.getInteligencia()));
-        etSabedoria.setText(String.valueOf(personagem.getSabedoria()));
-        etCarisma.setText(String.valueOf(personagem.getCarisma()));
-
-        // Marcar perícias
-        for (CheckBox cb : checkBoxesPericias) {
-            cb.setChecked(personagem.getPericias().contains(cb.getText().toString()));
-        }
     }
 
     public void salvarPersonagem(View view) {
@@ -162,33 +107,20 @@ public class CriacaoDoPersonagem extends AppCompatActivity {
                     periciasSelecionadas
             );
 
-            if (personagemEmEdicao != null) {
-                // Atualizar personagem existente
-                db.collection("personagens")
-                        .document(personagemEmEdicao.getId())
-                        .set(personagem)
-                        .addOnSuccessListener(doc -> {
-                            Toast.makeText(this, "Personagem atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(this, JaPossuePersonagem.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
-                        })
-                        .addOnFailureListener(e ->
-                                Toast.makeText(this, "Erro ao atualizar personagem.", Toast.LENGTH_SHORT).show()
-                        );
-            } else {
-                // Criar novo personagem
-                db.collection("personagens")
-                        .add(personagem)
-                        .addOnSuccessListener(doc -> {
-                            Toast.makeText(this, "Personagem criado com sucesso!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        })
-                        .addOnFailureListener(e ->
-                                Toast.makeText(this, "Erro ao salvar personagem.", Toast.LENGTH_SHORT).show()
-                        );
-            }
+            db.collection("personagens")
+                    .add(personagem)
+                    .addOnSuccessListener(doc -> {
+                        Toast.makeText(this, "Personagem criado com sucesso!", Toast.LENGTH_SHORT).show();
+
+
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Erro ao salvar personagem.", Toast.LENGTH_SHORT).show()
+                    );
+
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Por favor, preencha todos os atributos com números válidos.", Toast.LENGTH_SHORT).show();
         }

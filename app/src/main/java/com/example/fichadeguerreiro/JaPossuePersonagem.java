@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.content.Intent;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +18,13 @@ import java.util.List;
 
 public class JaPossuePersonagem extends AppCompatActivity {
 
+    private static final int REQUEST_CRIACAO = 1;
+    private static final int REQUEST_VER = 2;
+
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
     private List<Personagem> listaPersonagens = new ArrayList<>();
     private PersonagemAdapter adapter;
-    private Personagem personagemSelecionado = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,27 @@ public class JaPossuePersonagem extends AppCompatActivity {
 
         adapter.setOnItemClickListener(personagem -> {
             Toast.makeText(this, "Selecionou: " + personagem.getNome(), Toast.LENGTH_SHORT).show();
-            personagemSelecionado = personagem;
-            // Se quiser enviar para outra tela, adicione um Intent aqui
+            Intent intent = new Intent(JaPossuePersonagem.this, VerPersonagem.class);
+            intent.putExtra("personagem", personagem);
+            startActivityForResult(intent, REQUEST_VER);
+        });
+
+        Button buttonCriarPersonagem = findViewById(R.id.button3);
+        buttonCriarPersonagem.setOnClickListener(view -> {
+            Intent intent = new Intent(JaPossuePersonagem.this, CriacaoDoPersonagem.class);
+            startActivityForResult(intent, REQUEST_CRIACAO);
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ((requestCode == REQUEST_CRIACAO || requestCode == REQUEST_VER) && resultCode == RESULT_OK) {
+            carregarPersonagens();
+        }
+    }
+
 
     private void carregarPersonagens() {
         db.collection("personagens")
@@ -62,3 +82,4 @@ public class JaPossuePersonagem extends AppCompatActivity {
                 });
     }
 }
+
